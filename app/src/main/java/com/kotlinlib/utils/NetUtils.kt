@@ -5,13 +5,14 @@ import android.net.ConnectivityManager
 
 interface NetUtils {
 
-    /**
-     * @方法说明:判断是否有网络连接
-     * @方法名称:isNetworkConnected
-     * @return
-     * @返回值:boolean
-     */
-    fun Context.netOK(): Boolean {
+    companion object {
+        /**
+         * @方法说明:判断是否有网络连接
+         * @方法名称:isNetworkConnected
+         * @return
+         * @返回值:boolean
+         */
+        fun Context.netOK(): Boolean {
             val mConnectivityManager =
                     getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
             val mNetworkInfo = mConnectivityManager
@@ -19,8 +20,10 @@ interface NetUtils {
             if (mNetworkInfo != null) {
                 return mNetworkInfo.isAvailable
             }
-        return false
+            return false
+        }
     }
+
 
     enum class NetType {
         WIFI, CMNET, CMWAP, NONE
