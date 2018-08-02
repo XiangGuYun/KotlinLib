@@ -74,11 +74,11 @@ abstract class KotlinActivity : AppCompatActivity(), BaseInterface {
         return DensityUtils.dip2px(this@KotlinActivity, this.toFloat())
     }
 
-    fun Number.sp():Int{
+    fun Number.px2sp():Int{
         return DensityUtils.px2sp(this@KotlinActivity, this.toFloat())
     }
 
-    fun Number.px():Int{
+    fun Number.sp2px():Int{
         return DensityUtils.sp2px(this@KotlinActivity, this.toFloat())
     }
 

@@ -53,8 +53,8 @@ class NewsActivity : KotlinActivity() {
             4->{//更新频道列表，TabLayout和ViewPager
                 kwList.add(pair.second.toString())
                 rcList.remove(pair.second.toString())
-                putSP(ORDERED_CHANNEL,gson.toJson(kwList))
-                putSP(RECOMMEND_CHANNEL,gson.toJson(rcList))
+//                putSP(ORDERED_CHANNEL,gson.toJson(kwList))
+//                put*************(RECOMMEND_CHANNEL,gson.toJson(rcList))
                 gson.toJson(rcList).logD()
                 fpUtils.fragments.add(NewsFragment(pair.second.toString()))
                 fpUtils.adapter.notifyDataSetChanged()
@@ -88,10 +88,10 @@ class NewsActivity : KotlinActivity() {
 
     private fun initData() {
         //如果没有初始数据，那就放入初始数据
-        if(!getSP(RECOMMEND_CHANNEL,"").toString().isEmpty()){
-            kwList = JsonList<String>().transArrayList(getSP(ORDERED_CHANNEL,"").toString())
-            rcList = JsonList<String>().transArrayList(getSP(RECOMMEND_CHANNEL,"").toString())
-        }
+//        if(!getSP(RECOMMEND_CHANNEL,"").toString().isEmpty()){
+//            kwList = JsonList<String>().transArrayList(getSP(ORDERED_CHANNEL,"").toString())
+//            rcList = JsonList<String>().transArrayList(getSP(RECOMMEND_CHANNEL,"").toString())
+//        }
         fragments = kwList.map { NewsFragment(it) }
         val channelFragments = ArrayList(channelSelectList.map { ChannelFragment(it) })
         fpUtils = FragPagerUtils(this,vpNews,fragments)
@@ -136,12 +136,15 @@ class NewsActivity : KotlinActivity() {
                                     return@forEach
                                 }
                             }
+                            EventBus.getDefault().post(Pair(5,kwList[pos]))
                             kwList.remove(kwList[pos])
-                            rcList.add(kwList[pos])
-                            putSP(ORDERED_CHANNEL,gson.toJson(kwList))
-                            putSP(RECOMMEND_CHANNEL,gson.toJson(rcList))
+//                            putSP(ORDERED_CHANNEL,gson.toJson(kwList))
+//                            putSP(RECOMMEND_CHANNEL,gson.toJson(rcList))
                             fpUtils.adapter.notifyDataSetChanged()
                             rvChannel.update()
+                            for ((i,it) in kwList.withIndex()){
+                                tlNew.getTabAt(i)?.text = it
+                            }
                         }
                     }
                 },{

@@ -9,6 +9,7 @@ import com.kotlinlib.view.KotlinFragment
 import com.kotlinlib.view.RVUtils
 import kotlinx.android.synthetic.main.fragment_channel.*
 import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
 
 @SuppressLint("ValidFragment")
 @LayoutId(R.layout.fragment_channel)
@@ -17,9 +18,19 @@ class ChannelFragment(title: String): KotlinFragment() {
     val typeTitle = title
 
     override fun init(view: View?) {
-
+        EventBus.getDefault().register(this)
     }
 
+    @Subscribe
+    fun handleEvent(event:Pair<Int,Any>){
+        when(event.first){
+            5->{
+                event.second.toast()
+                NewsActivity.rcList.add(event.second.toString())
+                rvChannelList.update()
+            }
+        }
+    }
     override fun onResume() {
         super.onResume()
         if(typeTitle=="推荐频道"){
@@ -28,6 +39,7 @@ class ChannelFragment(title: String): KotlinFragment() {
                 holder.setText(R.id.tvChannelName,NewsActivity.rcList[pos])
                 holder.setOnClickListener(R.id.tvAddChannel) {
                     EventBus.getDefault().post(Pair(4,NewsActivity.rcList[pos]))
+                    if(NewsActivity.rcList.size!=0)
                     NewsActivity.rcList.remove(NewsActivity.rcList[pos])
                     rvChannelList.update()
                 }
@@ -39,6 +51,10 @@ class ChannelFragment(title: String): KotlinFragment() {
             }
 
         }
+    }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        EventBus.getDefault().unregister(this)
     }
 }

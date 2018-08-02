@@ -22,7 +22,6 @@ class NewsFragment(kw: String) : KotlinFragment() {
     var hasNext = true
     var datas = ArrayList<News.DataBean>()
     var isFirstReqData:Boolean = true
-    lateinit var newsRVUtils: RVUtils
 
     override fun init(view: View?) {
     }
@@ -89,7 +88,7 @@ class NewsFragment(kw: String) : KotlinFragment() {
 
     private fun initRVUtils(origin: List<News.DataBean>) {
         datas = ArrayList(origin)
-        newsRVUtils = RVUtils(rvNews).rvMultiAdapter(datas,{
+        RVUtils(rvNews).rvMultiAdapter(datas,{
             holder, pos ->
             holder.setText(R.id.tvTitle,datas[pos].title)
             holder.setText(R.id.tvSource,datas[pos].posterScreenName)
